@@ -20,6 +20,7 @@ class Location(models.Model):
     player_name=models.ForeignKey(Webpage,on_delete=models.CASCADE)
     age=models.IntegerField()
     place=models.CharField(max_length=100)
+    Date=models.DateField(default='2023-04-08')
 
     def __str__(self):
         return self.place
