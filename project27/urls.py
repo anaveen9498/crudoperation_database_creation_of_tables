@@ -22,4 +22,6 @@ urlpatterns = [
     path('databasetable/',databasetable,name='databasetable'),
     path('webtable/',webtable,name='webtable'),
     path('displaylocation/',displaylocation,name='displaylocation'),
+    path('display_update/',display_update,name='display_update'),
+    path('display_delete/',display_delete,name='display_delete'),
 ]

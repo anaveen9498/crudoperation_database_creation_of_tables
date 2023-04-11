@@ -2,6 +2,7 @@ from django.shortcuts import render
 from app.models import *
 from django.db.models.functions import Length
 from django.db.models import Q
+from django.http import HttpResponse
 
 # Create your views here.
 def databasetable(request):
@@ -25,7 +26,7 @@ def webtable(request):
     LOW=Webpage.objects.filter(player_name__regex='[a-zA-Z]{7}')
     LOW=Webpage.objects.filter(Q(topic_name='vollyboll') & Q(player_name='Naveen'))
     LOW=Webpage.objects.filter(Q(topic_name='Hocky'))
-    #LOW=Webpage.objects.all()
+    LOW=Webpage.objects.all()
 
 
     d={'web':LOW}
@@ -44,3 +45,36 @@ def displaylocation(request):
 
     d={'name':LOLO}
     return render(request,'displaylocation.html',d)
+
+
+
+
+def display_update(request):
+    Webpage.objects.filter(player_name='DilliBabu').update(Email='rolex@gmail.com')
+    Webpage.objects.filter(player_name='Naveen').update(topic_name='Hocky')
+
+
+    TO=Topic.objects.get(topic_name='Kabadi')
+    TO.save()
+    T=Topic.objects.get(topic_name='Chess')
+    T.save()
+    Webpage.objects.update_or_create(player_name='Karthik',defaults={'topic_name':TO})
+    Webpage.objects.update_or_create(player_name='Karthik',defaults={'Email':'karthikarthikar@gmail.com'})
+    Webpage.objects.update_or_create(player_name='DSP',defaults={'topic_name':T,'url':'http://dspdsp.in','Email':'Devichar143@gmail.com'})[0]
+    
+    d={'web':Webpage.objects.all()}
+
+    return render(request,'webtable.html',context=d)
+
+
+
+def display_delete(request):
+
+
+    Webpage.objects.filter(player_name='Naveen').delete()
+    Webpage.objects.filter(player_name__in=('Karthik','DSP')).delete()
+
+    d={'web':Webpage.objects.all()}
+
+
+    return render(request,'webtable.html',d)
